@@ -1,4 +1,5 @@
 import requests
+from pprint import pprint
 
 
 class Vk:
@@ -13,3 +14,28 @@ class Vk:
         params = {'user_ids': self.id, 'album_id': 'profile'}
         response = requests.get(url, params={**self.params, **params})
         return response.json()
+
+    def get_photo_url(self):
+        url = 'https://api.vk.com/method/photos.get'
+        params = {'user_ids': self.id, 'album_id': 'profile', 'extended': '1'}
+        response = requests.get(url, params={**self.params, **params})
+        response = response.json()
+        raw_list = response['response']['items']
+        photo_json = []
+        for item in raw_list:
+            sizes = item['sizes']
+            likes = item['likes']['count']
+            photo_id = item['id']
+            photo_info = {}
+            for photo in sizes:
+                photo_info['size'] = 'a'
+                photo_info['likes'] = likes
+                if photo['type'] == 'w':
+                    photo_info[photo_id] = photo['url']
+                    photo_info['size'] = photo['type']
+                    break
+                elif ord(photo_info['size']) <= ord(photo['type']):
+                    photo_info['size'] = photo['type']
+                    photo_info[photo_id] = photo['url']
+            photo_json.append(photo_info)
+        return photo_json
