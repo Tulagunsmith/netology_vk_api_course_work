@@ -1,5 +1,4 @@
 import requests
-from pprint import pprint
 
 
 class Vk:
@@ -15,9 +14,9 @@ class Vk:
         response = requests.get(url, params={**self.params, **params})
         return response.json()
 
-    def get_photo_url(self):
+    def get_photo_url(self, album_owner):
         url = 'https://api.vk.com/method/photos.get'
-        params = {'user_ids': self.id, 'album_id': 'profile', 'extended': '1'}
+        params = {'user_ids': self.id, 'album_id': 'profile', 'extended': '1', 'owner_id': album_owner}
         response = requests.get(url, params={**self.params, **params})
         response = response.json()
         raw_list = response['response']['items']
