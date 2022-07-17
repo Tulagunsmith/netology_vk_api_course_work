@@ -25,10 +25,12 @@ class Vk:
             sizes = item['sizes']
             likes = item['likes']['count']
             photo_id = item['id']
+            date = item['date']
             photo_info = {}
             for photo in sizes:
                 photo_info['size'] = 'a'
                 photo_info['likes'] = likes
+                photo_info['date'] = date
                 if photo['type'] == 'w':
                     photo_info[photo_id] = photo['url']
                     photo_info['size'] = photo['type']
