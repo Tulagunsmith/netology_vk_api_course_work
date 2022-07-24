@@ -25,25 +25,24 @@ class YaUploader:
         put_url = 'https://cloud-api.yandex.net/v1/disk/resources'
         params = {'path': f'{dir_name}/{file_name}'}
         response = requests.get(url=put_url, headers=self.headers, params=params)
-        if response.status_code == 404:
-            url = 'https://cloud-api.yandex.net/v1/disk/resources/upload'
-            upload_path = f'{dir_name}/{file_name}'
-            params = {
-                'path': upload_path,
-                'url': file_url,
-                'overwrite': 'true'
-            }
-            response = requests.post(url=url, headers=self.headers, params=params)
-            print('Copying photo!..')
-            return response.json()
-        elif response.status_code == 200:
-            url = 'https://cloud-api.yandex.net/v1/disk/resources/upload'
+        if response.status_code == 200:
+            upload_url = 'https://cloud-api.yandex.net/v1/disk/resources/upload'
             upload_path = f'{dir_name}/{str(file_name) + " " + str(file_date)}'
             params = {
                 'path': upload_path,
-                'url': file_url,
-                'overwrite': 'true'
+                'url': file_url
             }
-            response = requests.post(url=url, headers=self.headers, params=params)
+            response = requests.post(url=upload_url, headers=self.headers, params=params)
             print('Photo with such name already exists. Renaming the photo...')
             return response.json()
+        elif response.status_code > 200:
+            upload_url = 'https://cloud-api.yandex.net/v1/disk/resources/upload'
+            upload_path = f'{dir_name}/{file_name}'
+            params = {
+                'path': upload_path,
+                'url': file_url
+            }
+            response = requests.post(url=upload_url, headers=self.headers, params=params)
+            print('Copying photo!..')
+            return response.json()
+
