@@ -1,4 +1,5 @@
 import requests
+from datetime import datetime
 
 
 class Vk:
@@ -24,7 +25,7 @@ class Vk:
         for item in raw_list:
             sizes = item['sizes']
             likes = item['likes']['count']
-            date = item['date']
+            date = datetime.utcfromtimestamp(item['date']).strftime('%Y-%m-%d')
             photo_info = {}
             for photo in sizes:
                 photo_info['size'] = 'a'
