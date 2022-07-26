@@ -29,4 +29,4 @@ if __name__ == '__main__':
         yandex.upload_file(dir_name=directory, file_name=item['file_name'], file_url=item['photo_url'], file_date=item['date'])
         bar.next()
     bar.finish()
-    print('Upload finished successful. Good lck!')
+    print('Upload finished successful. Good luck!')
