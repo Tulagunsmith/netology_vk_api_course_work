@@ -21,18 +21,21 @@ if __name__ == '__main__':
     album_owner_id = input('Input album owner id: ')
     vk = Vk(access_token, user_id_number)
     user_photo = vk.get_photo_url(album_owner_id)
-    photo_quantity = photos_upload_quantity(user_photo)
-    directory = input('Input the name of the directory: ')
-    yandex = YaUploader(token=yandex_token)
-    yandex.create_dir(dir_name=directory)
-    bar = ChargingBar('Uploading photos to YandexDisk', max=photo_quantity)
-    same_name = None
-    for item in user_photo[:photo_quantity]:
-        if same_name == item['file_name']:
-            time.sleep(1)
-        yandex.upload_file(dir_name=directory, file_name=item['file_name'],
-                           file_url=item['photo_url'], file_date=item['date'])
-        same_name = item['file_name']
-        bar.next()
-    bar.finish()
-    print('Upload finished successful. Good luck!')
+    if user_photo is not None:
+        photo_quantity = photos_upload_quantity(user_photo)
+        directory = input('Input the name of the directory: ')
+        yandex = YaUploader(token=yandex_token)
+        yandex.create_dir(dir_name=directory)
+        bar = ChargingBar('Uploading photos to YandexDisk', max=photo_quantity)
+        same_name = None
+        for item in user_photo[:photo_quantity]:
+            if same_name == item['file_name']:
+                time.sleep(1)
+            yandex.upload_file(dir_name=directory, file_name=item['file_name'],
+                               file_url=item['photo_url'], file_date=item['date'])
+            same_name = item['file_name']
+            bar.next()
+        bar.finish()
+        print('Upload finished successful. Good luck!')
+    else:
+        print('Sorry. Try again!')
