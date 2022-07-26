@@ -26,7 +26,8 @@ if __name__ == '__main__':
     yandex.create_dir(dir_name=directory)
     bar = ChargingBar('Uploading photos to YandexDisk', max=photo_quantity)
     for item in user_photo[:photo_quantity]:
-        yandex.upload_file(dir_name=directory, file_name=item['file_name'], file_url=item['photo_url'], file_date=item['date'])
+        yandex.upload_file(dir_name=directory, file_name=item['file_name'],
+                           file_url=item['photo_url'], file_date=item['date'])
         bar.next()
     bar.finish()
     print('Upload finished successful. Good luck!')
