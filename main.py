@@ -4,6 +4,8 @@ from tokens import vk_token
 from tokens import user_id
 from tokens import yandex_token
 from yandex_api_class import YaUploader
+import time
+from progress.bar import ChargingBar
 
 
 def photos_upload_quantity(photos_list):
@@ -24,5 +26,8 @@ if __name__ == '__main__':
     directory = input('Input the name of the directory: ')
     yandex = YaUploader(token=yandex_token)
     yandex.create_dir(dir_name=directory)
+    bar = ChargingBar('Uploading photos to YandexDisk', max=len(user_photo), suffix='%(percent)d%%')
     for item in user_photo[:photo_quantity]:
         yandex.upload_file(dir_name=directory, file_name=item['file_name'], file_url=item['photo_url'], file_date=item['date'])
+        bar.next()
+    bar.finish()
