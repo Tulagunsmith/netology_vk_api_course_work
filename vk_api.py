@@ -45,4 +45,5 @@ class Vk:
             time.sleep(0.3)
             photo_json.append(photo_info)
         bar.finish()
+        print(f'Total URLs got: {len(photo_json)}')
         return photo_json
