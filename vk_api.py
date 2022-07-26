@@ -1,5 +1,7 @@
 import requests
+import time
 from datetime import datetime
+from progress.bar import ChargingBar
 
 
 class Vk:
@@ -22,6 +24,7 @@ class Vk:
         response = response.json()
         raw_list = response['response']['items']
         photo_json = []
+        bar = ChargingBar('Getting photo URLs', max=len(raw_list), suffix='%(percent)d%%')
         for item in raw_list:
             sizes = item['sizes']
             likes = item['likes']['count']
@@ -38,5 +41,8 @@ class Vk:
                 elif ord(photo_info['size']) <= ord(photo['type']):
                     photo_info['size'] = photo['type']
                     photo_info['photo_url'] = photo['url']
+            bar.next()
+            time.sleep(0.3)
             photo_json.append(photo_info)
+        bar.finish()
         return photo_json
