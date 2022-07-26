@@ -33,7 +33,7 @@ class YaUploader:
                 'url': file_url
             }
             response = requests.post(url=upload_url, headers=self.headers, params=params)
-            print('Photo with such name already exists. Renaming the photo...')
+            # print('Photo with such name already exists. Renaming the photo...')
             return response.json()
         elif response.status_code > 200:
             upload_url = 'https://cloud-api.yandex.net/v1/disk/resources/upload'
@@ -43,6 +43,6 @@ class YaUploader:
                 'url': file_url
             }
             response = requests.post(url=upload_url, headers=self.headers, params=params)
-            print('Copying photo!..')
+            # print('Copying photo!..')
             return response.json()
 
